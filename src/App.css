@@ -1,15 +1,42 @@
-@import url("./Logo/Logo.css");
 
-.App-header {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  gap: 20px;
+.rs-theme-light {
+  --rs-primary-50: #f2faff;
+  --rs-primary-100: #cce9ff;
+  --rs-primary-200: #a6d7ff;
+  --rs-primary-300: #80c4ff;
+  --rs-primary-400: #59afff;
+  --rs-primary-500: #ff0000 !important;
+  --rs-primary-600: #2589f5;
+  --rs-primary-700: #ff0000 !important;
+  --rs-primary-800: #0a5dc2;
+  --rs-primary-900: #004299;
+
+  --rs-color-red: #f44336;
+  --rs-color-orange: #fa8900;
+  --rs-color-yellow: #ffb300;
+  --rs-color-green: #4caf50;
+  --rs-color-cyan: #00bcd4;
+  --rs-color-blue: #2196f3;
+  --rs-color-violet: #673ab7;
 }
 
-.rs-theme-dark .App-header {
-  background-color: #282c34;
+.rs-theme-dark {
+  --rs-primary-50: #f2faff;
+  --rs-primary-100: #cce9ff;
+  --rs-primary-200: #a6d7ff;
+  --rs-primary-300: #80c4ff;
+  --rs-primary-400: #59afff;
+  --rs-primary-500: #00ffff !important;
+  --rs-primary-600: #2589f5;
+  --rs-primary-700: #19cbcb !important;
+  --rs-primary-800: #0a5dc2;
+  --rs-primary-900: #004299;
+
+  --rs-color-red: #f44336;
+  --rs-color-orange: #fa8900;
+  --rs-color-yellow: #ffb300;
+  --rs-color-green: #4caf50;
+  --rs-color-cyan: #00bcd4;
+  --rs-color-blue: #2196f3;
+  --rs-color-violet: #673ab7;
 }
