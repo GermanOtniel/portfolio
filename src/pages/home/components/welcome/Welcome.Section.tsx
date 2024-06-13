@@ -3,9 +3,13 @@ import { RowResponsive } from "./Welcome.Styled";
 import { ImageResponsive, MainButton, TitleStyled } from "../../../../components/shared";
 import { useParallax } from "react-scroll-parallax";
 import { useThemeContext } from "../../../../context/themeContext/Theme.Context";
+import { WELCOME } from "../../../../language";
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 const WelcomeSection = () => {
-  const { theme } = useThemeContext();
+  const [searchParams] = useSearchParams();
+  const { theme, language, } = useThemeContext();
   const parallax = useParallax<HTMLImageElement>({
     rotate: [-15, 360],
     scale: [1.2, .3, 'easeInQuad'],
@@ -13,6 +17,15 @@ const WelcomeSection = () => {
   const parallax2 = useParallax<HTMLDivElement>({
     scale: [1.2, .5, 'easeInQuad'],
   });
+
+  useEffect(() => {
+    if (searchParams.get("s") === "welcome") {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      })
+    }
+  }, [searchParams]);
 
   return (
     <>
@@ -22,7 +35,6 @@ const WelcomeSection = () => {
           fontSize: "10px", 
           color: "#c0c0c0"
         }}
-        id="welcome"
       >
         {"<body>"}
       </code>
@@ -56,11 +68,11 @@ const WelcomeSection = () => {
                   color: "#c0c0c0"
                 }}
               ><code>{"<h1>"}</code></span>
-              <TitleStyled>Hi,</TitleStyled>
-              <TitleStyled>I'm 
+              <TitleStyled>{WELCOME[language]["A"]}</TitleStyled>
+              <TitleStyled>{WELCOME[language]["B"]}
                 <span
                   style={{
-                    marginLeft: "10px",
+                    marginLeft: "5px",
                     marginRight: "1.5px",
                     textShadow: "4px 2px #ff0000",
                     color: "#00ffff"
@@ -70,7 +82,7 @@ const WelcomeSection = () => {
                 </span>tniel,
               </TitleStyled>
               <div style={{ display: "flex", alignItems: "end" }}>
-                <TitleStyled>web developer.</TitleStyled>
+                <TitleStyled>{WELCOME[language]["C"]}</TitleStyled>
                 <span 
                   style={{ 
                     marginLeft: "15px", 
@@ -89,7 +101,7 @@ const WelcomeSection = () => {
                   style={{ marginTop: "10px", width: "100%" }}
                   theme={theme}
                 >
-                  CONTACT ME
+                  {WELCOME[language]["D"]}
                 </MainButton>
               </a>
             </div>

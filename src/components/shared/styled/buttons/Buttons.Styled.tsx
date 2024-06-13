@@ -32,3 +32,19 @@ export const MainButton = styled(Button)<{ theme: IThemeState["theme"] }>`
     color: ${p => p.theme === "dark" ? "#00ffff;" : "white"};
   }
 `;
+
+export const ButtonResponsive = styled(Button)<{ theme: IThemeState["theme"] }>`
+  @media (max-width: 576px) {
+    &:after {
+      content: "";
+    }
+	}
+  @media (min-width: 577px) {
+    .btn-responsive-show {
+      display: none;
+    }
+    &:after {
+      content: "Autofill";
+    }
+	}
+`;

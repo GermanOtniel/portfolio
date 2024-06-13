@@ -1,6 +1,7 @@
 import { useLayoutContext } from "../../../context/layoutContext/Layout.Context";
 import BasicLoader from "../loaders/BasicLoader";
 import SidebarShared from "./Sidebar.Shared";
+import TopBar from "./TopBar";
 
 interface IGeneralLayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ const GeneralLayout: React.FC<IGeneralLayoutProps> = ({
 
   return (
     <>
+      <TopBar />
       <div style={{ display: "flex", height: "100%", overflow: "hidden" }}>
         <SidebarShared/>
         <div

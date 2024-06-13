@@ -1,60 +1,63 @@
 import { Avatar, Button, ButtonGroup, Col, Grid, Panel, Placeholder, Row, Stack } from "rsuite"
 import { RowResponsive } from "../welcome/Welcome.Styled"
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useThemeContext } from "../../../../context/themeContext/Theme.Context";
 import { useParallax } from "react-scroll-parallax";
+import { ME } from "../../../../language";
+import { useSearchParams } from "react-router-dom";
 
 const MeSection = () => {
+  const [searchParams] = useSearchParams();
+  const ref = useRef<HTMLDivElement | null>(null);
   const [imageReady, setImageReady] = useState<"loading" | "done" | "error">("loading"); 
-  const { theme } = useThemeContext();
+  const { theme, language, } = useThemeContext();
   const parallax = useParallax<HTMLImageElement>({
     rotateY: [180, -180],
   });
   const [activeTab, setActiveTab] = useState<"professional" | "personal" | "other">("professional");
 
+  useEffect(() => {
+    if (ref.current) {
+      if (searchParams.get("s") === "about-me") {
+        ref.current.scrollIntoView({
+          behavior: "smooth"
+        });
+      }
+    }
+  }, [ref, searchParams]);
 
   const tabs: { [key: string]: JSX.Element } = {
     "professional": (
       <>
         <p>
-          Hello, my name is Otniel Gutiérrez and I work as a Full Stack Web Developer. Since June 2018, 
-          I've been involved in 4 different startups, alongside some personal projects. <br />
-          These startups span various industries including restaurants, government, fintech, and 
-          digital marketing.
+          {ME[language].E.a} <br />
+          {ME[language].E.b}
         </p>
         <p>
-          I am skilled at both initiating projects from the ground up and integrating into existing ones.
+        {ME[language].E.c}
         </p>
         <p>
-          Those I've collaborated with describe me as detail-oriented, making minimal errors, and adaptable 
-          to change. I view myself as persistent, proactive, and accountable. Additionally, 
-          I highly value reciprocity in interpersonal relationships.
+        {ME[language].E.d}
         </p>
       </>
     ),
     "personal": (
       <>
-        <p>My full name is Germán Otniel Gutiérrez Serrano, and I'm originally from Mexico City. 
-        I'm 29 years old and happily married to Ilse ❤️, the love of my life.</p>
+        <p>{ME[language].F.a}</p>
         
-        <p>I consider myself a calm person; I prefer staying at home watching a good series rather 
-        than going to a shopping mall, although I also enjoy walking in a beautiful, tree-lined park.</p>
+        <p>{ME[language].F.b}</p>
         
-        <p>I'm a fan of soccer, and my favorite team is Chivas de Guadalajara, as I believe this team 
-        represents Mexican culture excellently.</p>
+        <p>{ME[language].F.c}</p>
         
-        <p>My favorite foods are aguachile, pozole, and the chicharron with cheese quesadillas that my mom makes.</p>
+        <p>{ME[language].F.d}</p>
         
-        <p>I am a believer in God and trust that the Bible is the word of God, but I respect the beliefs of any person.</p>
+        <p>{ME[language].F.e}</p>
       </>
     ),
     "other": (
       <>
-        <p>Some fun facts about me are that when I was little, a turkey 🦃 chased me in front of my whole family, and I ran 
-        away screaming, "Mom, mom, a big bird wants to eat me!".</p> 
-        <p>Then, on another occasion, while playing with a marble, I somehow managed to get it into my mouth and started 
-        choking on it. I almost died until my dad helped me, and I ended up swallowing the marble. Needless to say, it 
-        was my favorite one, and unfortunately, after a few days, I had to say goodbye to it as it went down the bathroom drain.</p>
+        <p>{ME[language].G.a}</p> 
+        <p>{ME[language].G.b}</p>
       </>
     ),
   };
@@ -71,6 +74,7 @@ const MeSection = () => {
           display: "flex"
         }}
         id="about-me"
+        ref={ref}
       >
         <RowResponsive>
           <Col
@@ -83,25 +87,25 @@ const MeSection = () => {
               bordered
               header={
                 <Stack wrap justifyContent="space-between">
-                  <h3>About me</h3>
+                  <h3>{ME[language].A}</h3>
                   <ButtonGroup>
                     <Button
                       active={activeTab === "professional"}
                       onClick={() => setActiveTab("professional")}
                     >
-                      Professional
+                      {ME[language].B}
                     </Button>
                     <Button
                       active={activeTab === "personal"}
                       onClick={() => setActiveTab("personal")}
                     >
-                      Personal
+                      {ME[language].C}
                     </Button>
                     <Button
                       active={activeTab === "other"}
                       onClick={() => setActiveTab("other")}
                     >
-                      Other
+                      {ME[language].D}
                     </Button>
                   </ButtonGroup>
                 </Stack>

@@ -4,14 +4,59 @@ import MemberIcon from '@rsuite/icons/Member';
 import CodeIcon from '@rsuite/icons/Code';
 import MagicIcon from '@rsuite/icons/legacy/Magic';
 import MessageIcon from '@rsuite/icons/Message';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useThemeContext } from '../../../context/themeContext/Theme.Context';
 import { useLayoutContext } from '../../../context/layoutContext/Layout.Context';
+import { SHARED } from '../../../language';
+import { useLocation, useNavigate } from 'react-router';
+import { Link, useSearchParams } from 'react-router-dom';
 
 const SidebarShared = () => {
-  const { onChangeTheme, theme, } = useThemeContext();
+  const [searchParams] = useSearchParams();
+  const router = useNavigate();
+  const location = useLocation();
+  const { onChangeTheme, theme, language, } = useThemeContext();
   const { layoutConfig, onChangeLayout, } = useLayoutContext();
   const [activeKey, setActiveKey] = useState('1');
+
+  useEffect(() => {
+    let newActiveKey = "1";
+    const activeSection = searchParams.get("s");
+    switch (activeSection) {
+      case "welcome":
+        newActiveKey = "1";
+        break;
+
+      case "about-me":
+        newActiveKey = "2";
+        break;
+
+      case "experience":
+        newActiveKey = "3";
+        break;
+
+      case "contact":
+        newActiveKey = "5";
+        break;
+    
+      default:
+        const { pathname } = location;
+        console.log(pathname);
+        switch (pathname) {
+          case "/":
+            newActiveKey = "1";
+            break;
+          case "/users":
+            newActiveKey = "4-1";
+            break;
+        
+          default:
+            break;
+        }
+        break;
+    }
+    setActiveKey(newActiveKey)
+  }, [searchParams]);
 
   return (
     <div 
@@ -34,28 +79,38 @@ const SidebarShared = () => {
         </Sidenav.Header>
         <Sidenav.Body>
           <Nav activeKey={activeKey} onSelect={setActiveKey}>
-            <Nav.Item eventKey="1" icon={<SiteIcon />} href='/#welcome'>
-              Welcome
+            <Nav.Item eventKey="1" icon={<SiteIcon />} as={Link} to='/?s=welcome'>
+              {SHARED.SIDEBAR[language].A}
             </Nav.Item>
-            <Nav.Item eventKey="2" icon={<MemberIcon />} href='/#about-me'>
-              About me
+            <Nav.Item eventKey="2" icon={<MemberIcon />} as={Link} to='/?s=about-me'>
+              {SHARED.SIDEBAR[language].B}
             </Nav.Item>
-            <Nav.Item eventKey="3" icon={<CodeIcon />} href='/#experience'>
-              Experience
+            <Nav.Item eventKey="3" icon={<CodeIcon />} as={Link} to='/?s=experience'>
+              {SHARED.SIDEBAR[language].C}
             </Nav.Item>
-            <Nav.Item eventKey="5" icon={<MessageIcon />} href='/#contact'>
-              Contact
+            <Nav.Item eventKey="5" icon={<MessageIcon />} as={Link} to='/?s=contact'>
+              {SHARED.SIDEBAR[language].D}
             </Nav.Item>
             <Nav.Menu 
               placement="rightStart" 
               eventKey="4" 
-              title="Features" 
+              title={SHARED.SIDEBAR[language].E}
               icon={<MagicIcon />}
             >
-              <Nav.Item eventKey="3-1" href='/users'>User registration</Nav.Item>
-              <Nav.Item eventKey="3-2" href='/ocr'>OCR</Nav.Item>
-              <Nav.Item eventKey="3-3" href='/pwa'>PWA</Nav.Item>
-              <Nav.Item eventKey="3-4" href='/excels'>Excel reading</Nav.Item>
+              <Nav.Item eventKey="4-1">
+                <Link to={"/users"}>
+                  {SHARED.SIDEBAR[language].F}
+                </Link>
+              </Nav.Item>
+              <Nav.Item eventKey="4-2" href='/ocr' onClick={() => router(`/ocr`)}>
+                {SHARED.SIDEBAR[language].G}
+              </Nav.Item>
+              <Nav.Item eventKey="4-3" href='/pwa' onClick={() => router(`/pwa`)}>
+                {SHARED.SIDEBAR[language].H}
+              </Nav.Item>
+              <Nav.Item eventKey="4-4" href='/excels' onClick={() => router(`/excels`)}>
+                {SHARED.SIDEBAR[language].I}
+              </Nav.Item>
             </Nav.Menu>
           </Nav>
         </Sidenav.Body>

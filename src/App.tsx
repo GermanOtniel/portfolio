@@ -7,6 +7,7 @@ import NotFound404 from './NotFound.Page';
 import { LayoutProvider } from './context/layoutContext/Layout.Context';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import { LoaderProvider } from './context/loaderContext/LoaderContext';
+import UsersPage from './pages/users/Users.Page';
 
 const App = () => {
   const { theme } = useThemeContext();
@@ -20,6 +21,10 @@ const App = () => {
               <Route
                 path='/'
                 Component={HomePage}
+              />
+              <Route
+                path='/users'
+                Component={UsersPage}
               />
               <Route
                 path='*'

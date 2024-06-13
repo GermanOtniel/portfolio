@@ -1,5 +1,6 @@
 
 .rs-theme-light {
+  --rs-gray-50: #f7f7fa;
   --rs-primary-50: #f2faff;
   --rs-primary-100: #cce9ff;
   --rs-primary-200: #a6d7ff;
@@ -21,6 +22,7 @@
 }
 
 .rs-theme-dark {
+  --rs-gray-800: #1a1d24;
   --rs-primary-50: #f2faff;
   --rs-primary-100: #cce9ff;
   --rs-primary-200: #a6d7ff;
@@ -39,4 +41,49 @@
   --rs-color-cyan: #00bcd4;
   --rs-color-blue: #2196f3;
   --rs-color-violet: #673ab7;
+}
+
+.rs-theme-dark .table-toolbar {
+  background: #1a1d24;
+}
+
+.rs-theme-light .table-toolbar {
+  background: #f7f7fa;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.rs-theme-light .rs-table {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.table-toolbar {
+  padding: 20px;
+  border-radius: 4px 4px 0 0;
+}
+
+.rs-drawer-footer {
+  text-align: left;
+}
+
+.rs-table {
+  .link-group {
+    cursor: pointer;
+    .rs-table-cell-content {
+      padding: 5px;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .rs-drawer-xs {
+    width: 94vw !important;
+  }
 }

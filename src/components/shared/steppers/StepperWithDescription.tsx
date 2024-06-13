@@ -1,4 +1,16 @@
 import { Steps, Panel, ButtonGroup, Button } from "rsuite";
+import { useThemeContext } from "../../../context/themeContext/Theme.Context";
+
+const LANGUAGE = {
+  EN: {
+    A: "Previous",
+    B: "Next",
+  },
+  ES: {
+    A: "Anterior",
+    B: "Siguiente",
+  }
+};
 
 export interface IStepItemOfStepper {
   title: string;
@@ -16,6 +28,7 @@ interface IStepperWithDescriptionProps {
 };
 
 const StepperWithDescription: React.FC<IStepperWithDescriptionProps> = ({ step, stepItems, onStep, vertical, content, }) => {
+  const { language, } = useThemeContext();
 
   const onPrevious = () => {
     onStep(step - 1);
@@ -46,10 +59,10 @@ const StepperWithDescription: React.FC<IStepperWithDescriptionProps> = ({ step, 
       <hr />
       <ButtonGroup>
         <Button onClick={onPrevious} disabled={step === 0}>
-          Previous
+          {LANGUAGE[language].A}
         </Button>
         <Button onClick={onNext} disabled={step === 3}>
-          Next
+          {LANGUAGE[language].B}
         </Button>
       </ButtonGroup>
     </>

@@ -5,6 +5,8 @@ import { sleep } from "../../../../../utils";
 import { useLoaderContext } from "../../../../../context/loaderContext/LoaderContext";
 import { successMessage } from "../../../../../components/shared";
 import { useTimer } from "../../../../../hooks";
+import { useThemeContext } from "../../../../../context/themeContext/Theme.Context";
+import { CONTACT } from "../../../../../language";
 
 export const useContact = () => {
   const formRef = useRef<FormInstance<HTMLFormElement>>(null);
@@ -17,6 +19,7 @@ export const useContact = () => {
   });
   const { onShow } = useLoaderContext();
   const toaster = useToaster();
+  const { language, } = useThemeContext();
 
   const handleSubmit = async () => {
     if (!formRef?.current?.check()) {
@@ -27,7 +30,7 @@ export const useContact = () => {
     startTimer();
     onShow(false);
     toaster.push(
-      successMessage("Thank you for your message! I will contact you shortly!"),
+      successMessage(CONTACT[language].I),
       { placement: "bottomCenter", duration: 5000 }
     );
   };

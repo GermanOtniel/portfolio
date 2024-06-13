@@ -1,3 +1,4 @@
 import SidebarShared from "./Sidebar.Shared";
 import GeneralLayout from "./GeneralLayout";
-export { SidebarShared, GeneralLayout, };
+import TopBar from "./TopBar";
+export { SidebarShared, GeneralLayout, TopBar, };
