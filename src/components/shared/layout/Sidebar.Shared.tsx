@@ -8,12 +8,11 @@ import { useEffect, useState } from 'react';
 import { useThemeContext } from '../../../context/themeContext/Theme.Context';
 import { useLayoutContext } from '../../../context/layoutContext/Layout.Context';
 import { SHARED } from '../../../language';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import { Link, useSearchParams } from 'react-router-dom';
 
 const SidebarShared = () => {
   const [searchParams] = useSearchParams();
-  const router = useNavigate();
   const location = useLocation();
   const { onChangeTheme, theme, language, } = useThemeContext();
   const { layoutConfig, onChangeLayout, } = useLayoutContext();
@@ -41,7 +40,6 @@ const SidebarShared = () => {
     
       default:
         const { pathname } = location;
-        console.log(pathname);
         switch (pathname) {
           case "/":
             newActiveKey = "1";
@@ -56,7 +54,7 @@ const SidebarShared = () => {
         break;
     }
     setActiveKey(newActiveKey)
-  }, [searchParams]);
+  }, [searchParams, location]);
 
   return (
     <div 
@@ -97,18 +95,16 @@ const SidebarShared = () => {
               title={SHARED.SIDEBAR[language].E}
               icon={<MagicIcon />}
             >
-              <Nav.Item eventKey="4-1">
-                <Link to={"/users"}>
-                  {SHARED.SIDEBAR[language].F}
-                </Link>
+              <Nav.Item active={activeKey === "4-1"} eventKey="4-1" as={Link} to={"/users"}>
+                {SHARED.SIDEBAR[language].F}
               </Nav.Item>
-              <Nav.Item eventKey="4-2" href='/ocr' onClick={() => router(`/ocr`)}>
+              <Nav.Item active={activeKey === "4-2"} eventKey="4-2" as={Link} to={"/ocr"}>
                 {SHARED.SIDEBAR[language].G}
               </Nav.Item>
-              <Nav.Item eventKey="4-3" href='/pwa' onClick={() => router(`/pwa`)}>
+              <Nav.Item active={activeKey === "4-3"} eventKey="4-3" as={Link} to={"/pwa"}>
                 {SHARED.SIDEBAR[language].H}
               </Nav.Item>
-              <Nav.Item eventKey="4-4" href='/excels' onClick={() => router(`/excels`)}>
+              <Nav.Item active={activeKey === "4-4"} eventKey="4-4" as={Link} to={"/excels"}>
                 {SHARED.SIDEBAR[language].I}
               </Nav.Item>
             </Nav.Menu>

@@ -1,23 +1,25 @@
-import React from 'react';
-import { Popover, Whisper, Checkbox, Dropdown, IconButton, Table, CellProps } from 'rsuite';
-import MoreIcon from '@rsuite/icons/legacy/More';
+import { Popover, Whisper, Checkbox, Table, CellProps } from 'rsuite';
+import { USERS } from '../../../language';
+import { useThemeContext } from '../../../context/themeContext/Theme.Context';
 
 const { Cell } = Table;
 
 export const NameCell = ({ rowData, dataKey, ...props }: CellProps<any>) => {
+  const { language } = useThemeContext();
+
   const speaker = (
-    <Popover title="Description">
+    <Popover title={USERS[language].T}>
       <p>
-        <b>Name:</b> {rowData.name}
+        <b>{USERS[language].F}:</b> {rowData.fullName}
       </p>
       <p>
-        <b>Gender:</b> {rowData.gender}
+        <b>{USERS[language].Ñ}:</b> {rowData.email}
       </p>
       <p>
-        <b>City:</b> {rowData.city}
+        <b>{USERS[language].O}:</b> {rowData.city}
       </p>
       <p>
-        <b>Street:</b> {rowData.street}
+        <b>{USERS[language].P}:</b> {rowData.street}
       </p>
     </Popover>
   );
@@ -71,27 +73,3 @@ export const CheckCell = ({
     </div>
   </Cell>
 );
-
-const renderMenu = ({ onClose, left, top, className }: any, ref: any) => {
-  const handleSelect = (eventKey: any) => {
-    onClose();
-    console.log(eventKey);
-  };
-  return (
-    <Popover ref={ref} className={className} style={{ left, top }} full>
-      <Dropdown.Menu onSelect={handleSelect}>
-        <Dropdown.Item eventKey={1}>Edit Profile</Dropdown.Item>
-      </Dropdown.Menu>
-    </Popover>
-  );
-};
-
-export const ActionCell = (props: any) => {
-  return (
-    <Cell {...props} className="link-group">
-      <Whisper placement="autoVerticalEnd" trigger="click" speaker={renderMenu}>
-        <IconButton appearance="subtle" icon={<MoreIcon />} />
-      </Whisper>
-    </Cell>
-  );
-};

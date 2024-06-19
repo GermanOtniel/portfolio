@@ -5,7 +5,7 @@ import { useParallax } from "react-scroll-parallax";
 import { useThemeContext } from "../../../../context/themeContext/Theme.Context";
 import { WELCOME } from "../../../../language";
 import { useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 const WelcomeSection = () => {
   const [searchParams] = useSearchParams();
@@ -95,7 +95,7 @@ const WelcomeSection = () => {
               <p style={{ color: theme === "dark" ? "#00ffff" : "inherit", fontWeight: "lighter" }}>
                 Back End Developer{"   |   "}Front End Developer{"   |   "}Freelancer
               </p>
-              <a href="/#contact">
+              <Link to="/?s=contact">
                 <MainButton
                   appearance="ghost" 
                   style={{ marginTop: "10px", width: "100%" }}
@@ -103,7 +103,7 @@ const WelcomeSection = () => {
                 >
                   {WELCOME[language]["D"]}
                 </MainButton>
-              </a>
+              </Link>
             </div>
           </Col>
           <Col

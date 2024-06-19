@@ -86,4 +86,14 @@
   .rs-drawer-xs {
     width: 94vw !important;
   }
+
+  .drawer-users-actions {
+    width: 94vw !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .drawer-users-actions {
+    width: 400px !important;
+  }
 }

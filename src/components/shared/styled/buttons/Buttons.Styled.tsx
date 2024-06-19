@@ -33,7 +33,7 @@ export const MainButton = styled(Button)<{ theme: IThemeState["theme"] }>`
   }
 `;
 
-export const ButtonResponsive = styled(Button)<{ theme: IThemeState["theme"] }>`
+export const ButtonResponsive = styled(Button)<{ theme: IThemeState["theme"]; label: string; }>`
   @media (max-width: 576px) {
     &:after {
       content: "";
@@ -44,7 +44,7 @@ export const ButtonResponsive = styled(Button)<{ theme: IThemeState["theme"] }>`
       display: none;
     }
     &:after {
-      content: "Autofill";
+      content: "${p => p.label ? p.label : "Button"}";
     }
 	}
 `;

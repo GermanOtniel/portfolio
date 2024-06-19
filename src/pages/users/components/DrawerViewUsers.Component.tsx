@@ -14,47 +14,53 @@ import { useThemeContext } from '../../../context/themeContext/Theme.Context';
 import { useSetUser } from '../hooks/useSetUser';
 import { IUser } from '../../../models';
 import PeoplesCostomizeIcon from '@rsuite/icons/PeoplesCostomize';
+import { SHARED, USERS } from '../../../language';
 
 const { StringType, NumberType } = Schema.Types;
-
-const modelContact = Schema.Model<IUser>({
-  id: StringType(),
-  avatar: StringType().isRequired(),
-  lastName: StringType().isRequired(),
-  firstName: StringType().isRequired("Es requerido apa!"),
-  fullName: StringType(),
-  skills: NumberType().isRequired(),
-  city: StringType().isRequired(),
-  street: StringType().isRequired(),
-  email: StringType().isRequired(),
-  rating: NumberType().isRequired(),
-  income: NumberType().isRequired(),
-});
 
 interface IDrawerViewUsersProps extends DrawerProps {
   selectedUser: IUser | null;
   onOpenDrawer: (open: boolean) => void;
+  onReload: () => Promise<void>;
 }
 
 const DrawerViewUsers = (props: IDrawerViewUsersProps) => {
-  const { onClose, selectedUser, ...rest } = props;
-  const { theme } = useThemeContext();
-  const { formRef, formValue, setFormValue, handleSubmit, } = useSetUser({
+  const { onClose, selectedUser, onReload, ...rest } = props;
+  const { theme, language, } = useThemeContext();
+  const { formRef, formValue, setFormValue, handleSubmit, onAutoFill, } = useSetUser({
     user: props.selectedUser || undefined,
-    onOpenDrawer: props.onOpenDrawer
+    onOpenDrawer: props.onOpenDrawer,
+    open: !!props.open,
+    onReload,
+  });
+
+  const modelContact = Schema.Model<IUser>({
+    id: StringType(SHARED.FORM_ERRORS[language].C),
+    avatar: StringType(SHARED.FORM_ERRORS[language].C).isRequired(SHARED.FORM_ERRORS[language].A),
+    lastName: StringType(SHARED.FORM_ERRORS[language].C).isRequired(SHARED.FORM_ERRORS[language].A),
+    firstName: StringType(SHARED.FORM_ERRORS[language].C).isRequired(SHARED.FORM_ERRORS[language].A),
+    fullName: StringType(SHARED.FORM_ERRORS[language].C),
+    skills: NumberType(SHARED.FORM_ERRORS[language].B).isRequired(SHARED.FORM_ERRORS[language].A),
+    city: StringType(SHARED.FORM_ERRORS[language].C).isRequired(SHARED.FORM_ERRORS[language].A),
+    street: StringType(SHARED.FORM_ERRORS[language].C).isRequired(SHARED.FORM_ERRORS[language].A),
+    email: StringType(SHARED.FORM_ERRORS[language].C).isRequired(SHARED.FORM_ERRORS[language].A),
+    rating: NumberType(SHARED.FORM_ERRORS[language].B).isRequired(SHARED.FORM_ERRORS[language].A),
+    income: NumberType(SHARED.FORM_ERRORS[language].B).isRequired(SHARED.FORM_ERRORS[language].A),
   });
 
   return (
     <Drawer backdrop="static" size="xs" placement="right" onClose={onClose} {...rest}>
       <Drawer.Header>
         <Drawer.Title>
-          {selectedUser?.id ? "Update user:" : "Add new user:"}
+          {selectedUser?.id ? USERS[language].L : USERS[language].C}
         </Drawer.Title>
-        <Drawer.Actions>
-          <ButtonResponsive appearance="primary">
-            <PeoplesCostomizeIcon className="btn-responsive-show" />
-          </ButtonResponsive>
-        </Drawer.Actions>
+        {!props.selectedUser?.id && (
+          <Drawer.Actions>
+            <ButtonResponsive onClick={onAutoFill} appearance="primary" label={USERS[language].Q}>
+              <PeoplesCostomizeIcon className="btn-responsive-show" />
+            </ButtonResponsive>
+          </Drawer.Actions>
+        )}
       </Drawer.Header>
 
       <Drawer.Body style={{ padding: "10px 25px" }}>
@@ -67,58 +73,59 @@ const DrawerViewUsers = (props: IDrawerViewUsersProps) => {
           model={modelContact}
         >
           <Form.Group controlId="firstName">
-            <Form.ControlLabel>First Name</Form.ControlLabel>
-            <Form.Control name="firstName" style={{ width: 200 }} />
+            <Form.ControlLabel>{USERS[language].M}</Form.ControlLabel>
+            <Form.Control name="firstName" style={{ width: 200 }} autoFocus />
           </Form.Group>
           <Form.Group>
-            <Form.ControlLabel>Last Name</Form.ControlLabel>
+            <Form.ControlLabel>{USERS[language].N}</Form.ControlLabel>
             <Form.Control name="lastName" style={{ width: 200 }} />
           </Form.Group>
           <Form.Group>
-            <Form.ControlLabel>Email</Form.ControlLabel>
+            <Form.ControlLabel>{USERS[language].Ñ}</Form.ControlLabel>
             <Form.Control name="email" type="email" />
           </Form.Group>
           <Form.Group>
-            <Form.ControlLabel>City</Form.ControlLabel>
+            <Form.ControlLabel>{USERS[language].O}</Form.ControlLabel>
             <Form.Control name="city" />
           </Form.Group>
           <Form.Group>
-            <Form.ControlLabel>Street</Form.ControlLabel>
+            <Form.ControlLabel>{USERS[language].P}</Form.ControlLabel>
             <Form.Control name="street" />
           </Form.Group>
 
           <Form.Group>
-            <Form.ControlLabel>Rating</Form.ControlLabel>
-            <Form.Control name="rating" accepter={Rate} />
+            <Form.ControlLabel>{USERS[language].D}</Form.ControlLabel>
+            <Form.Control name="rating" value={formValue.rating} accepter={Rate} />
           </Form.Group>
 
           <Form.Group>
-            <Form.ControlLabel>Skill Proficiency</Form.ControlLabel>
+            <Form.ControlLabel>{USERS[language].G}</Form.ControlLabel>
             <Form.Control name="skills" accepter={Slider} progress />
           </Form.Group>
 
           <Form.Group>
-            <Form.ControlLabel>Income</Form.ControlLabel>
+            <Form.ControlLabel>{USERS[language].H}</Form.ControlLabel>
             <InputGroup style={{ width: '100%' }}>
               <InputGroup.Addon>$</InputGroup.Addon>
               <Form.Control name="income" accepter={InputNumber} style={{ width: '100%' }} />
             </InputGroup>
           </Form.Group>
-          <Drawer.Actions 
+          <div
+            className='drawer-users-actions'
             style={{ 
               position: "fixed", bottom: 0, right: 0, 
-              width: "94%", display: "flex", 
+              display: "flex", 
               justifyContent: "right", gap: 5, padding: "10px 15px", 
               backgroundColor: theme === "dark" ? "#292d33" : "#ffffff" 
             }}
           >
             <MainButton theme={theme} onClick={handleSubmit} appearance="ghost">
-              Confirm
+              {SHARED.BUTTONS[language].A}
             </MainButton>
             <Button onClick={onClose} appearance="subtle">
-              Cancel
+            {SHARED.BUTTONS[language].B}
             </Button>
-          </Drawer.Actions>
+          </div>
         </Form>
       </Drawer.Body>
     </Drawer>

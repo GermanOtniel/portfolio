@@ -3,22 +3,25 @@ import {
   InputGroup,
   Table,
   Progress,
-  Checkbox,
   Stack,
   SelectPicker,
   Whisper,
   IconButton,
   Popover,
-  Dropdown
+  Dropdown,
+  Pagination
 } from 'rsuite';
 import SearchIcon from '@rsuite/icons/Search';
 import MoreIcon from '@rsuite/icons/legacy/More';
-import { NameCell, ImageCell, CheckCell } from './CellsUsers.Component';
+import { NameCell, ImageCell } from './CellsUsers.Component';
 import { MainButton } from '../../../components/shared';
 import { useThemeContext } from '../../../context/themeContext/Theme.Context';
 import DrawerViewUsers from './DrawerViewUsers.Component';
 import { useUserTable } from '../hooks/useUserTable';
 import { IUser } from '../../../models';
+import { useRef } from 'react';
+import { USERS } from '../../../language';
+import ModalDeleteUser from './ModalDeleteUser.Component';
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -37,7 +40,7 @@ const UsersTable = () => {
     onOpenEditUser,
     setShowDrawer,
     showDrawer,
-
+    getAllPortfolioUsers,
     rating,
     setRating,
     searchKeyword,
@@ -47,13 +50,13 @@ const UsersTable = () => {
     sortType,
     handleSortColumn,
     data,
-    checked,
-    indeterminate,
-    handleCheckAll,
-    checkedKeys,
+    setData,
+    handleSetIdToDelete,
+    userIdToDelete,
+    handleDeleteUser,
   } = useUserTable();
-
-  const { theme } = useThemeContext();
+  const ref = useRef<any>();
+  const { theme, language, } = useThemeContext();
 
   return (
     <>
@@ -63,19 +66,19 @@ const UsersTable = () => {
           appearance="ghost" 
           onClick={() => onOpenEditUser(null)}
         >
-          Add User
+          {USERS[language].C}
         </MainButton>
 
         <Stack spacing={6} alignItems="center">
           <SelectPicker
-            label="Rating"
+            label={USERS[language].D}
             data={ratingList}
             searchable={false}
             value={rating}
             onChange={setRating}
           />
           <InputGroup inside>
-            <Input placeholder="Search" value={searchKeyword} onChange={setSearchKeyword} />
+            <Input placeholder={USERS[language].E} value={searchKeyword} onChange={setSearchKeyword} />
             <InputGroup.Addon>
               <SearchIcon />
             </InputGroup.Addon>
@@ -85,50 +88,35 @@ const UsersTable = () => {
 
       <Table
         autoHeight
-        data={filteredData()}
+        data={filteredData}
         sortColumn={sortColumn}
         sortType={sortType}
-        onSortColumn={(dataKey, sortType) => handleSortColumn(dataKey as keyof typeof data[0], sortType || "asc")}
+        onSortColumn={(dataKey, sortType) => handleSortColumn(dataKey as keyof IUser, sortType || "asc")}
       >
         <Column width={50} align="center" fixed>
           <HeaderCell>Id</HeaderCell>
           <Cell dataKey="id" />
         </Column>
 
-        <Column width={50} fixed>
-          <HeaderCell style={{ padding: 0 }}>
-            <div style={{ lineHeight: '40px' }}>
-              <Checkbox
-                inline
-                checked={checked}
-                indeterminate={indeterminate}
-                onChange={(value, checked) => handleCheckAll(value, checked)}
-              />
-            </div>
-          </HeaderCell>
-          <CheckCell dataKey="id" checkedKeys={checkedKeys} onChange={(value) => {
-            console.log(value)
-          }} />
-        </Column>
         <Column width={80} align="center">
           <HeaderCell>Avatar</HeaderCell>
           <ImageCell dataKey="avatar" />
         </Column>
 
         <Column minWidth={160} flexGrow={1} sortable>
-          <HeaderCell>Name</HeaderCell>
+          <HeaderCell>{USERS[language].F}</HeaderCell>
           <NameCell dataKey="fullName" />
         </Column>
 
         <Column width={230} sortable>
-          <HeaderCell>Skill Proficiency</HeaderCell>
+          <HeaderCell>{USERS[language].G}</HeaderCell>
           <Cell style={{ padding: '10px 0' }} dataKey="skills">
             {rowData => <Progress percent={rowData.skills} showInfo={false} />}
           </Cell>
         </Column>
 
         <Column width={100} sortable>
-          <HeaderCell>Rating</HeaderCell>
+          <HeaderCell>{USERS[language].D}</HeaderCell>
           <Cell dataKey="rating">
             {rowData =>
               Array.from({ length: rowData.rating }).map((_, i) => <span key={i}>⭐️</span>)
@@ -137,12 +125,12 @@ const UsersTable = () => {
         </Column>
 
         <Column width={100} sortable>
-          <HeaderCell>Income</HeaderCell>
+          <HeaderCell>{USERS[language].H}</HeaderCell>
           <Cell dataKey="income">{rowData => `$${rowData.income}`}</Cell>
         </Column>
 
         <Column width={300}>
-          <HeaderCell>Email</HeaderCell>
+          <HeaderCell>{USERS[language].I}</HeaderCell>
           <Cell dataKey="email" />
         </Column>
 
@@ -153,14 +141,26 @@ const UsersTable = () => {
           <Cell className="link-group">{rowData => (
             <Whisper 
               placement="autoVerticalEnd" 
-              trigger="click" 
+              trigger="click"
+              ref={ref}
               speaker={(
                 <Popover full>
                   <Dropdown.Menu>
                     <Dropdown.Item 
-                      onSelect={() => onOpenEditUser(rowData as IUser)}
+                      onSelect={() => {
+                        onOpenEditUser(rowData as IUser);
+                        ref?.current?.close();
+                      }}
                     >
-                      Edit Profile
+                      {USERS[language].J}
+                    </Dropdown.Item>
+                    <Dropdown.Item 
+                      onSelect={() => {
+                        handleSetIdToDelete(rowData.id);
+                        ref?.current?.close();
+                      }}
+                    >
+                      {USERS[language].K}
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Popover>
@@ -173,11 +173,44 @@ const UsersTable = () => {
         </Column>
       </Table>
 
+      <div style={{ padding: "5px 0px" }}>
+        <Pagination
+          prev
+          next
+          first
+          last
+          ellipsis
+          boundaryLinks
+          maxButtons={4}
+          size="xs"
+          locale={{
+            total: `Total: ${data.total}`,
+          }}
+          layout={['total', '-', 'limit', '|', 'pager']}
+          total={data.total}
+          limitOptions={[150, 200, 300]}
+          limit={data.perPage}
+          activePage={data.page}
+          onChangePage={(page) => setData({ ...data, page})}
+          onChangeLimit={(perPage) => setData({ ...data, perPage})}
+        />
+      </div>
+
       <DrawerViewUsers 
         open={showDrawer} 
         onClose={() => setShowDrawer(false)} 
         selectedUser={selectedUser}
         onOpenDrawer={setShowDrawer}
+        onReload={getAllPortfolioUsers}
+      />
+
+      <ModalDeleteUser
+        modalProps={{
+          open: userIdToDelete !== "",
+          onClose: () => handleSetIdToDelete(""),
+        }}
+        handleDeleteUser={handleDeleteUser}
+        user={filteredData.find((user) => user.id === userIdToDelete)!}
       />
     </>
   );

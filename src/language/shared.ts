@@ -22,5 +22,27 @@ export const SHARED = {
       H: "PWA",
       I: "Lectura de excel",
     }
+  },
+  FORM_ERRORS: {
+    EN: {
+      A: "This field is required",
+      B: "Must be a number",
+      C: "Must be a text",
+    },
+    ES: {
+      A: "Este campo es requerido",
+      B: "Debería ser un número",
+      C: "Debería ser texto",
+    }
+  },
+  BUTTONS: {
+    EN: {
+      A: "Confirm",
+      B: "Cancel",
+    },
+    ES: {
+      A: "Confirmar",
+      B: "Cancelar",
+    }
   }
 };

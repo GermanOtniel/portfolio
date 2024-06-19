@@ -24,7 +24,7 @@ export function mockUsers(length: number) {
       fullName: name,
       city,
       street,
-      email,
+      email: email.toLocaleLowerCase(),
       rating,
       skills: progress,
       income: amount

@@ -1,14 +1,17 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FormInstance, useToaster } from "rsuite";
 import { IUser } from "../../../models";
 import { useLoaderContext } from "../../../context/loaderContext/LoaderContext";
-import { sleep } from "../../../utils";
-import { successMessage } from "../../../components/shared";
+import { errorMessage, successMessage } from "../../../components/shared";
 import { faker } from '@faker-js/faker/locale/en';
+import { mockUsers } from "../../../mocks";
+import { create, update } from "../../../api";
 
 interface IUseSetUser {
   onOpenDrawer: (open: boolean) => void;
   user?: IUser;
+  open: boolean;
+  onReload: () => Promise<void>;
 }
 
 export const useSetUser = (params: IUseSetUser) => {
@@ -28,29 +31,52 @@ export const useSetUser = (params: IUseSetUser) => {
   });
   const { onShow } = useLoaderContext();
   const toaster = useToaster();
-  const newUserId = useId();
-
+  
   const handleSubmit = async () => {
     if (!formRef?.current?.check()) {
       return;
     }
-    onShow(true);
-    let userToSend = { ...formValue };
-    await sleep(5000);
-    if (!userToSend.id) {
-      userToSend.id = newUserId;
+    try {
+      onShow(true);
+      let isCreating = true;
+      if (formValue.id) {
+        isCreating = false;
+        await update(formValue);
+      } 
+      if (!formValue.id) {
+        await create({ ...formValue, fullName: `${formValue.firstName} ${formValue.lastName}` });
+      }
+      toaster.push(
+        successMessage(`El registro ha sido ${isCreating ? "creado" : "actualizado"} correctamente`),
+        { placement: "bottomCenter", duration: 5000 }
+      );
+      params.onOpenDrawer(false);
+    } catch (error) {
+      toaster.push(
+        errorMessage(`Ha ocurrido un error inesperado \n ${String(error)}`),
+        { placement: "bottomCenter", duration: 5000 }
+      );
+    } finally {
+      params.onReload();
+      onShow(false);
     }
-    onShow(false);
-    toaster.push(
-      successMessage("exitosos!!!"),
-      { placement: "bottomCenter", duration: 5000 }
-    );
-    params.onOpenDrawer(false);
   };
 
   useEffect(() => {
     if (params?.user) {
-      setFormValue({ ...params.user });
+      setFormValue({ 
+        id: params.user.id,
+        avatar: params.user.avatar,
+        firstName: params.user.firstName,
+        lastName: params.user.lastName,
+        fullName: params.user.fullName,
+        skills: params.user.skills,
+        city: params.user.city,
+        street: params.user.street,
+        rating: params.user.rating,
+        income: params.user.income,
+        email: params.user.email,
+       });
     }
     if (!params?.user) {
       setFormValue({
@@ -67,12 +93,19 @@ export const useSetUser = (params: IUseSetUser) => {
         email: "",
       });
     }
-  }, [params?.user]);
+  }, [params?.user, params.open]);
+
+  const onAutoFill = () => {
+    const users = mockUsers(1);
+    const user = users[0];
+    setFormValue({ ...user, id: "" });
+  };
 
   return {
     formRef,
     formValue,
     setFormValue,
     handleSubmit,
+    onAutoFill,
   };
 };

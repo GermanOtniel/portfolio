@@ -1,4 +1,5 @@
 export * from "./shared";
+export * from "./users";
 
 export const WELCOME = {
   ES: {
