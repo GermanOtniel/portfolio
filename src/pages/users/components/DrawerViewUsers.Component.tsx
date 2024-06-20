@@ -6,7 +6,6 @@ import {
   InputNumber,
   InputGroup,
   Slider,
-  Rate,
   Schema
 } from 'rsuite';
 import { ButtonResponsive, MainButton } from '../../../components/shared';
@@ -15,6 +14,7 @@ import { useSetUser } from '../hooks/useSetUser';
 import { IUser } from '../../../models';
 import PeoplesCostomizeIcon from '@rsuite/icons/PeoplesCostomize';
 import { SHARED, USERS } from '../../../language';
+import { RateResponsive } from '../../../components/shared/styled/rates';
 
 const { StringType, NumberType } = Schema.Types;
 
@@ -95,7 +95,20 @@ const DrawerViewUsers = (props: IDrawerViewUsersProps) => {
 
           <Form.Group>
             <Form.ControlLabel>{USERS[language].D}</Form.ControlLabel>
-            <Form.Control name="rating" value={formValue.rating} accepter={Rate} />
+            <Form.Control 
+              name="rating" 
+              onChangeActive={(value) => setFormValue({ ...formValue, rating: value })}
+              value={formValue.rating}  
+              visible={["xs", "sm"]}
+              accepter={RateResponsive} 
+            />
+            <Form.Control 
+              name="rating" 
+              onChange={(value) => setFormValue({ ...formValue, rating: value })}
+              value={formValue.rating}  
+              visible={["md", "lg", "xl", "xxl"]}
+              accepter={RateResponsive} 
+            />
           </Form.Group>
 
           <Form.Group>
