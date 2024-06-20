@@ -128,3 +128,11 @@ export const remove = async (portfolioUserId: string) => {
     throw new Error(`${error}`);
   }
 };
+
+export const getUserById = async (portfolioUserId: string) => {
+  try {
+    await axios.get(`${process.env.REACT_APP_API_URL}/portfolioUser/${portfolioUserId}`);
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+};

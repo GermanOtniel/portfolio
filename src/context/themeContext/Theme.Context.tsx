@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useEffect, useState } from "react";
 import { CustomProviderProps } from "rsuite";
+import { getUserById } from "../../api";
 
 export interface IThemeState {
   theme: CustomProviderProps["theme"];
@@ -28,6 +29,19 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     language: lang,
     onChangeLanguage,
   };
+
+  const executeFirstRequestToActivateBack = useCallback(async () => {
+    try {
+      await getUserById("1");
+    } catch (error) {
+      console.log("First call to back");
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    executeFirstRequestToActivateBack();
+  }, [executeFirstRequestToActivateBack]);
 
   return (
     <ThemeContext.Provider value={value}>

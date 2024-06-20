@@ -1,5 +1,6 @@
 import { useLayoutContext } from "../../../context/layoutContext/Layout.Context";
 import BasicLoader from "../loaders/BasicLoader";
+import GameLoader from "../loaders/gameLoader/GameLoader";
 import SidebarShared from "./Sidebar.Shared";
 import TopBar from "./TopBar";
 
@@ -28,6 +29,7 @@ const GeneralLayout: React.FC<IGeneralLayoutProps> = ({
         </div>
       </div>
       <BasicLoader />
+      <GameLoader />
     </>
   );
 };
