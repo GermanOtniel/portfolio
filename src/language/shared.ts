@@ -10,6 +10,7 @@ export const SHARED = {
       G: "OCR",
       H: "PWA",
       I: "Excel reading",
+      J: "Tardi Game",
     },
     ES: {
       A: "Inicio",
@@ -21,6 +22,7 @@ export const SHARED = {
       G: "OCR",
       H: "PWA",
       I: "Lectura de excel",
+      J: "Tardi Game",
     }
   },
   FORM_ERRORS: {

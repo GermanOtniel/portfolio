@@ -47,6 +47,9 @@ const SidebarShared = () => {
           case "/users":
             newActiveKey = "4-1";
             break;
+          case "/tardi-game":
+            newActiveKey = "4-5";
+            break;
         
           default:
             break;
@@ -106,6 +109,9 @@ const SidebarShared = () => {
               </Nav.Item>
               <Nav.Item active={activeKey === "4-4"} eventKey="4-4" as={Link} to={"/excels"}>
                 {SHARED.SIDEBAR[language].I}
+              </Nav.Item>
+              <Nav.Item active={activeKey === "4-5"} eventKey="4-5" as={Link} to={"/tardi-game"}>
+                {SHARED.SIDEBAR[language].J}
               </Nav.Item>
             </Nav.Menu>
           </Nav>
