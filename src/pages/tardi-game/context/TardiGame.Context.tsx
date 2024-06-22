@@ -1,11 +1,15 @@
 import { createContext, useContext, useLayoutEffect, useRef, useState } from "react";
 
+interface ITardiConfig {
+  width: number;
+  height: number;
+};
 
 interface ITardiGameState {
   canvasCtx: CanvasRenderingContext2D | null;
   onCanvasCtx: (newCanvasCtx: CanvasRenderingContext2D | null) => void;
-  config: React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement>;
-  setConfig: (newConfig: React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement>) => void;
+  config: ITardiConfig | null;
+  setConfig: (newConfig: ITardiConfig | null) => void;
 };
 
 const TardiGameContext = createContext<ITardiGameState | undefined>(undefined);
@@ -13,10 +17,7 @@ const TardiGameContext = createContext<ITardiGameState | undefined>(undefined);
 export const TardiGameProvider = ({ children }: { children: React.ReactNode }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvasCtx, setCanvasCtx] = useState<CanvasRenderingContext2D | null>(null);
-  const [config, setConfig] = useState<React.DetailedHTMLProps<React.CanvasHTMLAttributes<HTMLCanvasElement>, HTMLCanvasElement>>({
-    width: 0,
-    height: 0,
-  });
+  const [config, setConfig] = useState<ITardiConfig | null>(null);
 
   useLayoutEffect(() => {
     const canvas = canvasRef.current;
@@ -50,13 +51,13 @@ export const TardiGameProvider = ({ children }: { children: React.ReactNode }) =
   return (
     <>
       <TardiGameContext.Provider value={value}>
-        {children}
-        <canvas 
+        {config && children}
+        {/* <canvas 
           ref={canvasRef} 
           width={config.width} 
           height={config.height} 
           style={{ border: '1px solid gray' }} 
-        />
+        /> */}
       </TardiGameContext.Provider>
     </>
   );
