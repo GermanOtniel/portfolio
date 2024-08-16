@@ -1,6 +1,7 @@
 import { IUser, IUserDB } from "../models";
 import axios, { AxiosResponse } from "axios";
 import { IAxiosResponse, IGenericResponse } from "./responsesTypes";
+import { usersDB } from "../db/usersDB";
 
 interface IGetAllResponse extends IGenericResponse {
   page: number;
@@ -33,13 +34,19 @@ const allUsersSetter = (portfolioUsersDB: IUserDB[]): IUser[] => {
 };
 export const getAll = async (pagination?: { page: number; perPage: number; }): Promise<IGetAllResponse> => {
   try {
-    const response: AxiosResponse<IAxiosResponse<IGetAllRequestResponse>> = await axios.get(
-      `${process.env.REACT_APP_API_URL}/portfolioUser/`,
-      { params: pagination ? { ...pagination } : undefined }
-    );
+    // const response: AxiosResponse<IAxiosResponse<IGetAllRequestResponse>> = await axios.get(
+    //   `${process.env.REACT_APP_API_URL}/portfolioUser/`,
+    //   { params: pagination ? { ...pagination } : undefined }
+    // );
+    const response = await usersDB.getAll(pagination?.page, pagination?.perPage);
     return {
-      ...response.data.data,
-      portfolioUsers: allUsersSetter(response.data.data.portfolioUsers)
+      code: 200,
+      message: "Success",
+      error: false,
+      page: response.page,
+      pages: response.pages,
+      total: response.total,
+      portfolioUsers: allUsersSetter(response.portfolioUsers)
     };
   } catch (error) {
     throw new Error(`${error}`);
@@ -71,13 +78,20 @@ const createUserSetter = (portfolioUserDB: IUserDB): IUser => {
 };
 export const create = async (portfolioUser: IUser): Promise<ICreatePortfolioUserResponse> => {
   try {
-    const response: AxiosResponse<IAxiosResponse<ICreatePortfolioUserRequestResponse>> = await axios.post(
-      `${process.env.REACT_APP_API_URL}/portfolioUser/`,
-      { ...portfolioUser }
-    );
+    // const response: AxiosResponse<IAxiosResponse<ICreatePortfolioUserRequestResponse>> = await axios.post(
+    //   `${process.env.REACT_APP_API_URL}/portfolioUser/`,
+    //   { ...portfolioUser }
+    // );
+    // return {
+    //   ...response.data.data,
+    //   portfolioUser: createUserSetter(response.data.data.portfolioUser)
+    // };
+    const response = await usersDB.create(portfolioUser);
     return {
-      ...response.data.data,
-      portfolioUser: createUserSetter(response.data.data.portfolioUser)
+      code: 200,
+      message: "Success",
+      error: false,
+      portfolioUser: createUserSetter(response)
     };
   } catch (error) {
     throw new Error(`${error}`);
@@ -108,13 +122,20 @@ const updateUserSetter = (portfolioUserDB: IUserDB): IUser => {
 };
 export const update = async (portfolioUser: IUser): Promise<IUpdatePortfolioUserResponse> => {
   try {
-    const response: AxiosResponse<IAxiosResponse<IUpdatePortfolioUserRequestResponse>> = await axios.put(
-      `${process.env.REACT_APP_API_URL}/portfolioUser/${portfolioUser.id}`,
-      { ...portfolioUser },
-    );
+    // const response: AxiosResponse<IAxiosResponse<IUpdatePortfolioUserRequestResponse>> = await axios.put(
+    //   `${process.env.REACT_APP_API_URL}/portfolioUser/${portfolioUser.id}`,
+    //   { ...portfolioUser },
+    // );
+    // return {
+    //   ...response.data.data,
+    //   portfolioUser: updateUserSetter(response.data.data.portfolioUser)
+    // };
+    const response = await usersDB.update(portfolioUser);
     return {
-      ...response.data.data,
-      portfolioUser: updateUserSetter(response.data.data.portfolioUser)
+      code: 200,
+      message: "Success",
+      error: false,
+      portfolioUser: updateUserSetter(response)
     };
   } catch (error) {
     throw new Error(`${error}`);
@@ -123,7 +144,8 @@ export const update = async (portfolioUser: IUser): Promise<IUpdatePortfolioUser
 
 export const remove = async (portfolioUserId: string) => {
   try {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/portfolioUser/${portfolioUserId}`);
+    // await axios.delete(`${process.env.REACT_APP_API_URL}/portfolioUser/${portfolioUserId}`);
+    await usersDB.remove(portfolioUserId);
   } catch (error) {
     throw new Error(`${error}`);
   }

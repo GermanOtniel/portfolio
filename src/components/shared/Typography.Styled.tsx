@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { IThemeState } from "../../context/themeContext/Theme.Context";
 
 export const TitleStyled = styled.h1<{ 
   align?: React.CSSProperties["textAlign"]; 
@@ -59,4 +60,11 @@ export const ParagraphStyled = styled.p<{
     }
     return size;
   }};
+`;
+
+export const ParagraphGamer = styled.p<{ theme: IThemeState["theme"]; }>`
+  font-family: "Press Start 2P", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  color: ${p => p.theme === "dark" ? "#00ffff" : "#ff0000"}
 `;

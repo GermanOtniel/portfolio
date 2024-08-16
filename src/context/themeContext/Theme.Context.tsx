@@ -30,18 +30,6 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     onChangeLanguage,
   };
 
-  const executeFirstRequestToActivateBack = useCallback(async () => {
-    try {
-      await getUserById("1");
-    } catch (error) {
-      console.log("First call to back");
-      console.log(error);
-    }
-  }, []);
-
-  useEffect(() => {
-    executeFirstRequestToActivateBack();
-  }, [executeFirstRequestToActivateBack]);
 
   return (
     <ThemeContext.Provider value={value}>

@@ -95,7 +95,9 @@ const UsersTable = () => {
       >
         <Column width={50} align="center" fixed>
           <HeaderCell>Id</HeaderCell>
-          <Cell dataKey="id" />
+          <Cell dataKey="id">
+            {rowData => <span title={rowData.id}>...{String(rowData.id).slice(String(rowData.id).length - 3, String(rowData.id).length)}</span>}
+          </Cell>
         </Column>
 
         <Column width={80} align="center">

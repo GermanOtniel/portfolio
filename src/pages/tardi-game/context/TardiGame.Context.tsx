@@ -28,10 +28,18 @@ export const TardiGameProvider = ({ children }: { children: React.ReactNode }) =
     }
 
     const handleUpdateSize = () => {
-      setConfig({
-        width: window.innerWidth - 100,
-        height: window.innerHeight - 140,
-      });
+      if (!document.fullscreenElement) {
+        setConfig({
+          width: window.innerWidth - 100,
+          height: window.innerHeight - 140,
+        });
+      }
+      if (document.fullscreenElement) {
+        setConfig({
+          width: window.innerWidth,
+          height: window.innerHeight,
+        });
+      }
     };
     handleUpdateSize();
 

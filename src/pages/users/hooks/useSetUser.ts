@@ -41,7 +41,7 @@ export const useSetUser = (params: IUseSetUser) => {
       let isCreating = true;
       if (formValue.id) {
         isCreating = false;
-        await update(formValue);
+        await update({ ...formValue, fullName: `${formValue.firstName} ${formValue.lastName}` });
       } 
       if (!formValue.id) {
         await create({ ...formValue, fullName: `${formValue.firstName} ${formValue.lastName}` });

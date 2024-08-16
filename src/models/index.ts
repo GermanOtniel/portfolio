@@ -13,7 +13,7 @@ export interface IUser {
 }
 
 export interface IUserDB {
-  id: number;
+  id: string;
   avatar: string;
   last_name: string;
   first_name: string;
@@ -24,4 +24,18 @@ export interface IUserDB {
   email: string;
   rating: number;
   income: string;
+}
+
+export interface IPlayer {
+  id: string;
+  avatar: string;
+  nickName: string;
+  points: number
+}
+
+export interface IPlayerDB {
+  id: string;
+  avatar: string;
+  nick_name: string;
+  points: number;
 }
