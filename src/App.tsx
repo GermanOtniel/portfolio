@@ -9,6 +9,8 @@ import { ParallaxProvider } from 'react-scroll-parallax';
 import { LoaderProvider } from './context/loaderContext/LoaderContext';
 import UsersPage from './pages/users/Users.Page';
 import TardiGamePage from './pages/tardi-game/TardiGame.Page';
+import ExcelsPage from './pages/excels/Excels.Page';
+import OcrPage from './pages/ocr/Ocr.Page';
 
 const App = () => {
   const { theme } = useThemeContext();
@@ -30,6 +32,14 @@ const App = () => {
               <Route
                 path='/tardi-game'
                 Component={TardiGamePage}
+              />
+              <Route
+                path='/excels'
+                Component={ExcelsPage}
+              />
+              <Route
+                path='/ocr'
+                Component={OcrPage}
               />
               <Route
                 path='*'

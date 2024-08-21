@@ -635,6 +635,7 @@ const BoardGame = () => {
                   onClick={(e) => {
                     e.preventDefault();
                     setPause(!pause);
+                    setPlaying(!playing);
                   }} icon={pause ? <PlayOutlineIcon /> : <PauseRoundIcon />} 
                 />
                 <IconButton 

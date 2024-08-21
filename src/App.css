@@ -82,6 +82,31 @@
   }
 }
 
+.rs-theme-dark .custom-table-container {
+  background: #1a1d24;
+}
+
+.rs-theme-light .custom-table-container {
+  background: #f7f7fa;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.custom-table-container {
+  padding: 10px 20px;
+}
+
+.custom-table-cell {
+  padding: 5px 10px;
+}
+
+.rs-theme-light .custom-table-cell {
+  border: 1px solid #1a1d24;
+}
+
+.rs-theme-dark .custom-table-cell {
+  border: 1px solid #f7f7fa;
+}
+
 @media (max-width: 576px) {
   .rs-drawer-xs {
     width: 94vw !important;

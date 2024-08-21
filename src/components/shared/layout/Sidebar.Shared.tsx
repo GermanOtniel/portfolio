@@ -50,6 +50,12 @@ const SidebarShared = () => {
           case "/tardi-game":
             newActiveKey = "4-5";
             break;
+          case "/excels":
+            newActiveKey = "4-4";
+            break;
+          case "/ocr":
+            newActiveKey = "4-2";
+            break;
         
           default:
             break;

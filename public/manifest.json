@@ -1,15 +1,35 @@
 {
-  "short_name": "Otniel Gutiérrez | DEV",
-  "name": "Otniel Gutiérrez | DEV",
+  "id": "otniPWA9431",
+  "short_name": "otniPWA",
+  "name": "Otniel Gutiérrez | DEV | PWA",
   "icons": [
     {
-      "src": "port-o1-icon.png",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "/images/port-o1-192.png",
+      "sizes": "192x192",
       "type": "image/png"
+    },
+    {
+      "src": "/images/port-o1-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "screenshots": [
+    {
+      "src": "/images/screenshot-736x1312.png",
+      "sizes": "736x1312",
+      "type": "image/png",
+      "form_factor": "mobile"
+    },
+    {
+      "src": "/images/screenshot-2880x1512.png",
+      "sizes": "2880x1512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "start_url": "/?app=true",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#0f131a",
+  "background_color": "#0f131a"
 }
